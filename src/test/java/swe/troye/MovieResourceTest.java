@@ -18,6 +18,40 @@ class MovieResourceTest {
 
     @Test
     @Order(1)
+    void initializeCreation() {
+        JsonObject jsonObject = Json.createObjectBuilder()
+                .add("title", "FirstMovie")
+                .add("description", "MyFirstMovie")
+                .add("director", "Me")
+                .add("country", "Planet")
+                .build();
+
+        given()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(jsonObject.toString())
+                .when()
+                .post("/movies")
+                .then()
+                .statusCode(Response.Status.CREATED.getStatusCode());
+
+        jsonObject = Json.createObjectBuilder()
+                .add("title", "SecondMovie")
+                .add("description", "MySecondMovie")
+                .add("director", "Me")
+                .add("country", "Planet")
+                .build();
+
+        given()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(jsonObject.toString())
+                .when()
+                .post("/movies")
+                .then()
+                .statusCode(Response.Status.CREATED.getStatusCode());
+    }
+
+    @Test
+    @Order(2)
     void getAll() {
         given()
                 .when()
@@ -32,7 +66,7 @@ class MovieResourceTest {
     }
 
     @Test
-    @Order(1)
+    @Order(2)
     void getById() {
         given()
                 .when()
@@ -47,13 +81,13 @@ class MovieResourceTest {
     }
 
     @Test
-    @Order(1)
+    @Order(2)
     void getByIdKO() {
         given().when().get("/movies/1000").then().statusCode(Response.Status.NOT_FOUND.getStatusCode());
     }
 
     @Test
-    @Order(1)
+    @Order(2)
     void getByTitle() {
         given()
                 .when()
@@ -68,7 +102,7 @@ class MovieResourceTest {
     }
 
     @Test
-    @Order(1)
+    @Order(2)
     void getByTitleKO() {
         given()
                 .when()
@@ -78,7 +112,7 @@ class MovieResourceTest {
     }
 
     @Test
-    @Order(2)
+    @Order(3)
     void getByCountry() {
         given()
                 .when()
@@ -93,7 +127,7 @@ class MovieResourceTest {
     }
 
     @Test
-    @Order(2)
+    @Order(3)
     void getByCountryKO() {
         given()
                 .when()
@@ -104,7 +138,7 @@ class MovieResourceTest {
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     void create() {
         JsonObject jsonObject = Json.createObjectBuilder()
                 .add("title", "ThirdMovie")
@@ -123,9 +157,10 @@ class MovieResourceTest {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     void updateById() {
-        JsonObject jsonObject = Json.createObjectBuilder().add("title", "SecondMovieUpdate").build();
+        JsonObject jsonObject = Json.createObjectBuilder().add("title",
+                "SecondMovieUpdate").build();
 
         given()
                 .contentType(MediaType.APPLICATION_JSON)
@@ -142,9 +177,10 @@ class MovieResourceTest {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     void updateByIdKO() {
-        JsonObject jsonObject = Json.createObjectBuilder().add("title", "SecondMovieUpdate").build();
+        JsonObject jsonObject = Json.createObjectBuilder().add("title",
+                "SecondMovieUpdate").build();
 
         given()
                 .contentType(MediaType.APPLICATION_JSON)
@@ -156,7 +192,7 @@ class MovieResourceTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     void deleteById() {
         given()
                 .when()
@@ -168,7 +204,7 @@ class MovieResourceTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     void deleteByIdKO() {
         given()
                 .when()
