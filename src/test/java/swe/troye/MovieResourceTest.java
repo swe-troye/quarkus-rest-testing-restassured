@@ -1,8 +1,13 @@
 package swe.troye;
 
 import io.quarkus.test.junit.QuarkusTest;
+
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.junit.jupiter.api.*;
 
+import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.core.MediaType;
@@ -15,6 +20,35 @@ import static org.hamcrest.CoreMatchers.*;
 @Tag("integration")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class MovieResourceTest {
+
+    @ConfigProperty(name = "greeting.message", defaultValue = "Default greeting message.")
+    String greetingMessage;
+
+    @Test
+    @Order(1)
+    void getConfigByConfigProperty() {
+        Assertions.assertEquals("Hi there!", greetingMessage);
+    }
+
+    @Test
+    @Order(1)
+    void getConfigByConfig() {
+        Config config = ConfigProvider.getConfig();
+        // String greetingMessage = config.getValue("greeting.message", String.class);
+        String greetingMessage = config.getOptionalValue("greeting.message", String.class)
+                .orElse("Default greeting message.");
+
+        Assertions.assertEquals("Hi there!", greetingMessage);
+    }
+
+    @Inject
+    CustomConfig customConfig;
+
+    @Test
+    @Order(1)
+    void getConfigByConfigBean() {
+        Assertions.assertEquals("Custom config message", customConfig.message());
+    }
 
     @Test
     @Order(1)

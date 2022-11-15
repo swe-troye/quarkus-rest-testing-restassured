@@ -1,0 +1,32 @@
+greeting:
+  message: Hi there!
+app:
+  message: Custom config message
+
+quarkus:
+  datasource:
+    devservices:
+      image-name: postgres:15.0-alpine
+      port: 58877
+    #   db-name: test
+    #   username: test
+    #   password: test
+
+"%prod":
+  quarkus:
+    http:
+      port: 8080
+    datasource:
+      db-kind: postgresql
+      username: prd_user
+      password: 0000
+    jdbc:
+      url: jdbc:postgresql://localhost:5432/my_db
+"%test":
+  quarkus:
+    http:
+      port: 8099
+"%dev":
+  quarkus:
+    http:
+      port: 8081
