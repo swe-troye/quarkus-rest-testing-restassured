@@ -69,6 +69,9 @@ public class MovieResource {
                 .map(
                         m -> {
                             m.setTitle(movie.getTitle());
+                            m.setDescription(movie.getDescription());
+                            m.setDirector(movie.getDirector());
+                            m.setCountry(movie.getCountry());
                             return Response.ok(m).build();
                         })
                 .orElse(Response.status(NOT_FOUND).build());
